@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37012.4 d17.14
+VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.WebAPI", "MChat.WebAPI\MChat.WebAPI.csproj", "{2F98D352-5E9D-4208-AE91-C4793ABE9F19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.Infrastructure", "MChat.Infrastructure\MChat.Infrastructure.csproj", "{849F6DFA-45AA-4D23-FA15-23C2ED783404}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.Domain", "MChat.Domain\MChat.Domain.csproj", "{8A27582D-BAEC-A607-5C5A-88FD9ACF7EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.Application", "MChat.Application\MChat.Application.csproj", "{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.CQS", "..\..\..\..\..\Desktop\Architect-2025\Design_pattern\ExoArchi_Cqs\Backend\Tools.CQS\Tools.CQS.csproj", "{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{2F98D352-5E9D-4208-AE91-C4793ABE9F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F98D352-5E9D-4208-AE91-C4793ABE9F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F98D352-5E9D-4208-AE91-C4793ABE9F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{849F6DFA-45AA-4D23-FA15-23C2ED783404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849F6DFA-45AA-4D23-FA15-23C2ED783404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849F6DFA-45AA-4D23-FA15-23C2ED783404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849F6DFA-45AA-4D23-FA15-23C2ED783404}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A27582D-BAEC-A607-5C5A-88FD9ACF7EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A27582D-BAEC-A607-5C5A-88FD9ACF7EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A27582D-BAEC-A607-5C5A-88FD9ACF7EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A27582D-BAEC-A607-5C5A-88FD9ACF7EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
