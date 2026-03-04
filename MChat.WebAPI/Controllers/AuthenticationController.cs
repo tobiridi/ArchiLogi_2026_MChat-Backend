@@ -21,11 +21,18 @@ namespace MChat.WebAPI.Controllers
         public async Task<IActionResult> Post(AuthenticateRequest request)
         {
             RegisterCommand command = new RegisterCommand(request.Email, request.Password, request.Username);
-            bool isRegister = await _authenticationService.RegisterUser(command);
-            if (isRegister)
-                return Created();
-            else
-                return Problem(detail: "An error occurred when register the user");
+            try
+            {
+                bool isRegister = await _authenticationService.RegisterUser(command);
+                if (isRegister)
+                    return Created();
+                else
+                    return Problem(detail: "Can not register the user.", statusCode: 400);
+            }
+            catch (Exception)
+            {
+                return Problem(detail: "An error occurred when register the user", statusCode: 500);
+            }
         }
 
         //// GET: api/Authentication
