@@ -5,7 +5,11 @@ using MChat.Domain.Interfaces;
 using MChat.Infrastructure.DatabaseContext;
 using MChat.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using System.Threading.RateLimiting;
 
 namespace MChat.WebAPI
 {
@@ -24,6 +28,42 @@ namespace MChat.WebAPI
 
                 options.UseSqlServer(connectionString);
             });
+
+            #region Rate limiter configuration
+
+            builder.Services.AddRateLimiter(options =>
+            {
+                // global
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                        factory: partition => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 100,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 0
+                        }));
+
+                // specific
+                options.AddFixedWindowLimiter("Authentication", winOpt => 
+                {
+                    winOpt.PermitLimit = 10;
+                    winOpt.Window = TimeSpan.FromSeconds(10);
+                    winOpt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                    winOpt.QueueLimit = 0;
+                });
+
+                options.OnRejected = async (context, cancellationToken) =>
+                {
+                    // Custom rejection handling logic
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                    context.HttpContext.Response.Headers.RetryAfter = "60";
+
+                    await context.HttpContext.Response.WriteAsync("Rate limit exceeded. Please try again later.", cancellationToken);
+                };
+            });
+            #endregion
 
             #region Repositories services
 
@@ -44,9 +84,8 @@ namespace MChat.WebAPI
 
                 options.AddPolicy(corsPolicyName1, policy =>
                 {
-                    //TODO : update the cors policy when connect the frontend
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
+                    policy.WithOrigins("https://localhost:7008")
+                    .WithMethods("GET", "POST", "PUT", "PATCH", "DELTE")
                     .AllowAnyHeader();
                 });
             });
@@ -59,27 +98,6 @@ namespace MChat.WebAPI
 
             var app = builder.Build();
 
-            //app.UseCors((config) =>
-            //{
-            //    if(app.Environment.IsDevelopment())
-            //    {
-            //        config.AllowCredentials()
-            //        .AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //        .Build();
-            //    }
-            //    else if(app.Environment.IsProduction())
-            //    {
-            //        config.WithOrigins("")
-            //        .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-            //        .WithHeaders("")
-            //        .AllowCredentials()
-            //        .Build();
-            //    }
-
-            //});
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -88,6 +106,7 @@ namespace MChat.WebAPI
             }
 
             app.UseCors(corsPolicyName1);
+            app.UseRateLimiter();
 
             app.UseHttpsRedirection();
 
