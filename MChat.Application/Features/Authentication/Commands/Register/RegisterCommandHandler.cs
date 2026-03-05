@@ -1,11 +1,10 @@
 ﻿using MChat.Domain.Entities;
 using MChat.Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Tools.CQS.Commands;
 
 namespace MChat.Application.Features.Authentication.Commands.Register
 {
-    public class RegisterCommandHandler : ICommandHandler<RegisterCommand>
+    internal class RegisterCommandHandler : ICommandHandler<RegisterCommand>
     {
         private readonly IUserRepository _userRepository;
 

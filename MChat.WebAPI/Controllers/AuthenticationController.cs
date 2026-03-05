@@ -20,10 +20,10 @@ namespace MChat.WebAPI.Controllers
             _authenticationService = authenticationService;
         }
 
-        // POST: api/v1/Authentication
-        [HttpPost]
+        // POST: api/v1/Authentication/register
+        [HttpPost("register", Name = "register")]
         [EnableRateLimiting("Authentication")]
-        public async Task<IActionResult> Post(AuthenticateRequest request)
+        public async Task<IActionResult> Register(AuthenticateRequest request)
         {
             RegisterCommand command = new RegisterCommand(request.Email, request.Password, request.Username);
             try
@@ -32,11 +32,11 @@ namespace MChat.WebAPI.Controllers
                 if (isRegister)
                     return Created();
                 else
-                    return Problem(detail: "Can not register the user.", statusCode: 400);
+                    return Problem(detail: "Can not register the user.", statusCode: StatusCodes.Status400BadRequest);
             }
             catch (Exception)
             {
-                return Problem(detail: "An error occurred when register the user", statusCode: 500);
+                return Problem(detail: "An error occurred when register the user", statusCode: StatusCodes.Status500InternalServerError);
             }
         }
 
