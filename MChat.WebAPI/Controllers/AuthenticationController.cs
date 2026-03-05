@@ -16,7 +16,7 @@ namespace MChat.WebAPI.Controllers
             _authenticationService = authenticationService;
         }
 
-        // GET: api/v1/Authentication
+        // POST: api/v1/Authentication
         [HttpPost]
         public async Task<IActionResult> Post(AuthenticateRequest request)
         {
