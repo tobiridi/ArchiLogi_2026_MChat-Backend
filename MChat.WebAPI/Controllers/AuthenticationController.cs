@@ -1,7 +1,11 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
+using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
+using MChat.Domain.Entities;
 using MChat.WebAPI.DTOs.Requests.Authentication;
+using MChat.WebAPI.DTOs.Responses.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MChat.WebAPI.Controllers
 {
@@ -18,6 +22,7 @@ namespace MChat.WebAPI.Controllers
 
         // POST: api/v1/Authentication
         [HttpPost]
+        [EnableRateLimiting("Authentication")]
         public async Task<IActionResult> Post(AuthenticateRequest request)
         {
             RegisterCommand command = new RegisterCommand(request.Email, request.Password, request.Username);
@@ -35,12 +40,22 @@ namespace MChat.WebAPI.Controllers
             }
         }
 
-        //// GET: api/Authentication
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        //{
-        //    return await _context.Users.ToListAsync();
-        //}
+        // POST: api/Authentication/login
+        [HttpPost("login", Name = "login")]
+        [EnableRateLimiting("Authentication")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            LoginQuery query = new LoginQuery(request.Email, request.Password);
+            User? user = await _authenticationService.LoginUser(query);
+
+            if(user is null)
+            {
+                return BadRequest("Credentials are invalid.");
+            }
+
+            LoginResponse response = new LoginResponse(user);
+            return Ok(response);
+        }
 
         //// GET: api/Authentication/5
         //[HttpGet("{id}")]

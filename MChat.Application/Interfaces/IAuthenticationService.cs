@@ -1,5 +1,6 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
-using Tools.CQS.Commands;
+using MChat.Application.Features.Authentication.Queries.Login;
+using MChat.Domain.Entities;
 
 namespace MChat.Application.Interfaces
 {
@@ -12,5 +13,6 @@ namespace MChat.Application.Interfaces
     public interface IAuthenticationService
     {
         public Task<bool> RegisterUser(RegisterCommand command);
+        public Task<User?> LoginUser(LoginQuery query);
     }
 }
