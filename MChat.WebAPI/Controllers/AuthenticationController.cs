@@ -16,9 +16,9 @@ namespace MChat.WebAPI.Controllers
             _authenticationService = authenticationService;
         }
 
-        // POST: api/v1/Authentication
-        [HttpPost]
-        public async Task<IActionResult> Post(AuthenticateRequest request)
+        // POST: api/v1/Authentication/register
+        [HttpPost("register", Name = "register")]
+        public async Task<IActionResult> Register(AuthenticateRequest request)
         {
             RegisterCommand command = new RegisterCommand(request.Email, request.Password, request.Username);
             try
@@ -35,11 +35,12 @@ namespace MChat.WebAPI.Controllers
             }
         }
 
-        //// GET: api/Authentication
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        // POST: api/v1/Authentication/login
+        //[HttpPost(Name = "login")]
+        //public async Task<IActionResult> Login()
         //{
-        //    return await _context.Users.ToListAsync();
+        //    bool isLogin = await _authenticationService.LoginUser();
+        //    return NoContent();
         //}
 
         //// GET: api/Authentication/5
