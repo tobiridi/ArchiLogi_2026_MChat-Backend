@@ -44,9 +44,8 @@ namespace MChat.WebAPI
 
                 options.AddPolicy(corsPolicyName1, policy =>
                 {
-                    //TODO : update the cors policy when connect the frontend
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
+                    policy.WithOrigins("https://localhost:7008")
+                    .WithMethods("GET", "POST", "PUT", "PATCH", "DELTE")
                     .AllowAnyHeader();
                 });
             });
