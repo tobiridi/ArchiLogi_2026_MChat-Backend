@@ -27,11 +27,11 @@ namespace MChat.WebAPI.Controllers
                 if (isRegister)
                     return Created();
                 else
-                    return Problem(detail: "Can not register the user.", statusCode: 400);
+                    return Problem(detail: "Can not register the user.", statusCode: StatusCodes.Status400BadRequest);
             }
             catch (Exception)
             {
-                return Problem(detail: "An error occurred when register the user", statusCode: 500);
+                return Problem(detail: "An error occurred when register the user", statusCode: StatusCodes.Status500InternalServerError);
             }
         }
 
