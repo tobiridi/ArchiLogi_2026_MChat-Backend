@@ -19,9 +19,9 @@ namespace MChat.WebAPI.Services
 
         public string GenerateAccess(User user)
         {
-            IConfigurationSection jwtSettings = _configuration.GetSection("jwt");
+            IConfigurationSection jwtSettings = _configuration.GetSection("Jwt");
 
-            string? secretKey = jwtSettings.GetValue<string>("secretKey");
+            string? secretKey = jwtSettings.GetValue<string>("SecretKey");
             string? jwtIssuer = jwtSettings.GetValue<string>("Issuer");
             string? jwtAudience = jwtSettings.GetValue<string>("Audience");
             int jwtExp = jwtSettings.GetValue<int>("ExpiryMinutes");
@@ -51,6 +51,17 @@ namespace MChat.WebAPI.Services
         {
             byte[] bytes = RandomNumberGenerator.GetBytes(64);
             return Base64UrlEncoder.Encode(bytes);
+        }
+
+        public JwtRefreshTokenUser GenerateRefresh(User user)
+        {
+            IConfigurationSection jwtSettings = _configuration.GetSection("Jwt");
+
+            string refreshToken = this.GenerateRefresh();
+            int refreshExp = jwtSettings.GetValue<int>("RefreshTokenExpiryDays");
+            DateTime expires = DateTime.UtcNow.AddDays(refreshExp);
+
+            return new JwtRefreshTokenUser(refreshToken, user, expires, false);
         }
     }
 }

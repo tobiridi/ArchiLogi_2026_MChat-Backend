@@ -1,10 +1,10 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
+using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
 using MChat.Domain.Entities;
 using MChat.WebAPI.DTOs.Requests.Authentication;
 using MChat.WebAPI.DTOs.Responses.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -72,32 +72,21 @@ namespace MChat.WebAPI.Controllers
             }
 
             string jwtToken = _jwtTokenService.GenerateAccess(user);
-            string refreshToken = _jwtTokenService.GenerateRefresh();
-            LoginResponse response = new LoginResponse(jwtToken, refreshToken);
+            JwtRefreshTokenUser jwtRefreshToken = _jwtTokenService.GenerateRefresh(user);
+
+            try
+            {
+                CreateUserRefreshTokenCommand command = new CreateUserRefreshTokenCommand(jwtRefreshToken);
+                await _authenticationService.SaveUserRefreshToken(command);
+            }
+            catch (Exception)
+            {
+                return Problem(detail: "An error occurred when saving the refresh token of the user.", statusCode: StatusCodes.Status500InternalServerError);
+            }
+
+            LoginResponse response = new LoginResponse(jwtToken, jwtRefreshToken.RefreshToken);
             return Ok(response);
         }
-
-        [HttpGet("test", Name = "test")]
-        [Authorize]
-        [EnableRateLimiting("Authentication")]
-        public async Task<IActionResult> Test()
-        {
-            return Ok();
-        }
-
-        //// GET: api/Authentication/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<User>> GetUser(Guid id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return user;
-        //}
 
         //// PUT: api/Authentication/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

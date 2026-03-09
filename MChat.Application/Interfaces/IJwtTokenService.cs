@@ -6,5 +6,6 @@ namespace MChat.Application.Interfaces
     {
         string GenerateAccess(User user);
         string GenerateRefresh();
+        JwtRefreshTokenUser GenerateRefresh(User user);
     }
 }
