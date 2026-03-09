@@ -15,13 +15,5 @@ namespace MChat.Infrastructure.Repositories
             return await this._context.Users.Where(u => u.Email == email)
                 .SingleOrDefaultAsync();
         }
-
-        public async Task<bool> RegisterAsync(User user)
-        {
-            await this._context.Users.AddAsync(user);
-            int changes = await this._context.SaveChangesAsync();
-            return changes > 0;
-        }
-
     }
 }

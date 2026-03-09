@@ -1,4 +1,5 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
+using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
 using MChat.Domain.Entities;
@@ -12,12 +13,14 @@ namespace MChat.Application.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAuthRepository _authRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AuthenticationService(IPasswordHasher<User> hasher, IUserRepository userRepository)
+        public AuthenticationService(IPasswordHasher<User> hasher, IUserRepository userRepository, IAuthRepository authRepository)
         {
             _passwordHasher = hasher;
             _userRepository = userRepository;
+            _authRepository = authRepository;
         }
 
         public async Task<User?> LoginUser(LoginQuery query)
@@ -42,8 +45,14 @@ namespace MChat.Application.Services
             string hashPwd = _passwordHasher.HashPassword(null!, command.Password);
             RegisterCommand commandPassword = new RegisterCommand(command.Email, hashPwd, command.Username);
 
-            ICommandHandler<RegisterCommand> handler = new RegisterCommandHandler(_userRepository);
+            ICommandHandler<RegisterCommand> handler = new RegisterCommandHandler(_authRepository);
             return await handler.Handle(commandPassword);
+        }
+
+        public async Task<bool> SaveUserRefreshToken(CreateUserRefreshTokenCommand command)
+        {
+            ICommandHandler<CreateUserRefreshTokenCommand> handler = new CreateUserRefreshTokenCommandHandler(_authRepository);
+            return await handler.Handle(command);
         }
     }
 }

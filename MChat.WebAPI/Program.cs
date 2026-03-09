@@ -4,11 +4,14 @@ using MChat.Domain.Entities;
 using MChat.Domain.Interfaces;
 using MChat.Infrastructure.DatabaseContext;
 using MChat.Infrastructure.Repositories;
+using MChat.WebAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Threading.RateLimiting;
 
 namespace MChat.WebAPI
@@ -46,7 +49,7 @@ namespace MChat.WebAPI
                         }));
 
                 // specific
-                options.AddFixedWindowLimiter("Authentication", winOpt => 
+                options.AddFixedWindowLimiter("Authentication", winOpt =>
                 {
                     winOpt.PermitLimit = 10;
                     winOpt.Window = TimeSpan.FromSeconds(10);
@@ -68,12 +71,14 @@ namespace MChat.WebAPI
             #region Repositories services
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IAuthRepository, AuthRepository>();
             #endregion
 
             #region Application layer services
 
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
             #endregion
 
             #region CORS configuration
@@ -91,10 +96,70 @@ namespace MChat.WebAPI
             });
             #endregion
 
+            #region Cookie configuration (not configured)
+
+            //builder.Services.AddCookiePolicy(options => 
+            //{
+            //    options.HttpOnly = HttpOnlyPolicy.Always;
+            //    options.Secure = CookieSecurePolicy.SameAsRequest;
+
+            //});
+            #endregion
+
+            #region JWT configuration
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(jwtOptions =>
+                {
+                    IConfigurationSection jwt = configuration.GetSection("jwt");
+
+                    jwtOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwt.GetValue<string>("Issuer"),
+                        ValidateAudience = true,
+                        ValidAudience = jwt.GetValue<string>("Audience"),
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.GetValue<string>("secretKey")!)),
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(1)
+                    };
+                });
+
+            #endregion
+
+            builder.Services.AddAuthorization();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mchat web API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter your JWT token"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        }, new string[] {}
+                    }
+                });
+            });
 
             var app = builder.Build();
 
@@ -110,6 +175,7 @@ namespace MChat.WebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

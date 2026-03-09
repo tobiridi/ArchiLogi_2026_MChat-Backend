@@ -1,4 +1,5 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
+using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
 using MChat.Domain.Entities;
@@ -14,15 +15,20 @@ namespace MChat.WebAPI.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, IJwtTokenService jwtTokenService)
         {
             _authenticationService = authenticationService;
+            _jwtTokenService = jwtTokenService;
         }
 
         // POST: api/v1/Authentication/register
         [HttpPost("register", Name = "register")]
         [EnableRateLimiting("Authentication")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register(AuthenticateRequest request)
         {
             RegisterCommand command = new RegisterCommand(request.Email, request.Password, request.Username);
@@ -36,40 +42,51 @@ namespace MChat.WebAPI.Controllers
             }
             catch (Exception)
             {
-                return Problem(detail: "An error occurred when register the user", statusCode: StatusCodes.Status500InternalServerError);
+                return Problem(detail: "An error occurred when register the user.", statusCode: StatusCodes.Status500InternalServerError);
             }
         }
 
         // POST: api/Authentication/login
         [HttpPost("login", Name = "login")]
         [EnableRateLimiting("Authentication")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             LoginQuery query = new LoginQuery(request.Email, request.Password);
-            User? user = await _authenticationService.LoginUser(query);
+            User? user = null;
+
+            try
+            {
+                user = await _authenticationService.LoginUser(query);
+            }
+            catch (Exception)
+            {
+                return Problem(detail: "An error occurred when login the user.", statusCode: StatusCodes.Status500InternalServerError);
+            }
 
             if(user is null)
             {
                 return BadRequest("Credentials are invalid.");
             }
 
-            LoginResponse response = new LoginResponse(user);
+            string jwtToken = _jwtTokenService.GenerateAccess(user);
+            JwtRefreshTokenUser jwtRefreshToken = _jwtTokenService.GenerateRefresh(user);
+
+            try
+            {
+                CreateUserRefreshTokenCommand command = new CreateUserRefreshTokenCommand(jwtRefreshToken);
+                await _authenticationService.SaveUserRefreshToken(command);
+            }
+            catch (Exception)
+            {
+                return Problem(detail: "An error occurred when saving the refresh token of the user.", statusCode: StatusCodes.Status500InternalServerError);
+            }
+
+            LoginResponse response = new LoginResponse(jwtToken, jwtRefreshToken.RefreshToken);
             return Ok(response);
         }
-
-        //// GET: api/Authentication/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<User>> GetUser(Guid id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return user;
-        //}
 
         //// PUT: api/Authentication/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -100,17 +117,6 @@ namespace MChat.WebAPI.Controllers
         //    }
 
         //    return NoContent();
-        //}
-
-        //// POST: api/Authentication
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<User>> PostUser(User user)
-        //{
-        //    _context.Users.Add(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetUser", new { id = user.Id }, user);
         //}
 
         //// DELETE: api/Authentication/5

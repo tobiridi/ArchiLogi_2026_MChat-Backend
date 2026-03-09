@@ -8,6 +8,7 @@ namespace MChat.Infrastructure.DatabaseContext
     public class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<JwtRefreshTokenUser> JwtTokenUsers { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {}
@@ -16,6 +17,7 @@ namespace MChat.Infrastructure.DatabaseContext
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserSeed());
+            modelBuilder.ApplyConfiguration(new JwtRefreshTokenUserConfiguration());
         }
     }
 }
