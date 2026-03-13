@@ -90,7 +90,7 @@ namespace MChat.WebAPI
                 options.AddPolicy(corsPolicyName1, policy =>
                 {
                     policy.WithOrigins("https://localhost:7008")
-                    .WithMethods("GET", "POST", "PUT", "PATCH", "DELTE")
+                    .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                     .AllowAnyHeader();
                 });
             });
