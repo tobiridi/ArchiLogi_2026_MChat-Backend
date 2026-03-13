@@ -6,5 +6,6 @@ namespace MChat.Domain.Interfaces
     {
         Task<bool> RegisterAsync(User user);
         Task SaveUserRefreshTokenAsync(JwtRefreshTokenUser entity);
+        Task<bool> DeleteUserRefreshTokenAsync(Guid userId);
     }
 }

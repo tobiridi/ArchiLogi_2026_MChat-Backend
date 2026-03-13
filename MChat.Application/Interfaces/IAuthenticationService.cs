@@ -1,7 +1,8 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
-using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
+using MChat.Application.Features.Authentication.Commands.CreateUserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Domain.Entities;
+using MChat.Application.Features.Authentication.Commands.DeleteUserRefreshToken;
 
 namespace MChat.Application.Interfaces
 {
@@ -16,5 +17,6 @@ namespace MChat.Application.Interfaces
         public Task<bool> RegisterUser(RegisterCommand command);
         public Task<User?> LoginUser(LoginQuery query);
         public Task<bool> SaveUserRefreshToken(CreateUserRefreshTokenCommand command);
+        public Task<bool> DeleteUserRefreshToken(DeleteUserRefreshTokenCommand command);
     }
 }

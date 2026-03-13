@@ -1,5 +1,5 @@
 ﻿using MChat.Application.Features.Authentication.Commands.Register;
-using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
+using MChat.Application.Features.Authentication.Commands.CreateUserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
 using MChat.Domain.Entities;
@@ -7,6 +7,7 @@ using MChat.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Tools.CQS.Commands;
 using Tools.CQS.Queries;
+using MChat.Application.Features.Authentication.Commands.DeleteUserRefreshToken;
 
 namespace MChat.Application.Services
 {
@@ -21,6 +22,12 @@ namespace MChat.Application.Services
             _passwordHasher = hasher;
             _userRepository = userRepository;
             _authRepository = authRepository;
+        }
+
+        public async Task<bool> DeleteUserRefreshToken(DeleteUserRefreshTokenCommand command)
+        {
+            ICommandHandler<DeleteUserRefreshTokenCommand> handler = new DeleteUserRefreshTokenCommandHandler(_authRepository);
+            return await handler.Handle(command);
         }
 
         public async Task<User?> LoginUser(LoginQuery query)
