@@ -40,7 +40,7 @@ namespace MChat.WebAPI.Controllers
             }
         }
 
-        // POST: api/Authentication/login
+        // POST: api/v1/Authentication/login
         [HttpPost("login", Name = "login")]
         [EnableRateLimiting("Authentication")]
         public async Task<IActionResult> Login(LoginRequest request)
