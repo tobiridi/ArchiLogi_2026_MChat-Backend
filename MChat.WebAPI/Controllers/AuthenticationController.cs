@@ -1,12 +1,15 @@
-﻿using MChat.Application.Features.Authentication.Commands.Register;
-using MChat.Application.Features.Authentication.Commands.UserRefreshToken;
+﻿using MChat.Application.Features.Authentication.Commands.DeleteUserRefreshToken;
+using MChat.Application.Features.Authentication.Commands.Register;
+using MChat.Application.Features.Authentication.Commands.CreateUserRefreshToken;
 using MChat.Application.Features.Authentication.Queries.Login;
 using MChat.Application.Interfaces;
 using MChat.Domain.Entities;
 using MChat.WebAPI.DTOs.Requests.Authentication;
 using MChat.WebAPI.DTOs.Responses.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using System.Security.Claims;
 
 namespace MChat.WebAPI.Controllers
 {
@@ -88,52 +91,33 @@ namespace MChat.WebAPI.Controllers
             return Ok(response);
         }
 
-        //// PUT: api/Authentication/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(Guid id, User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        // DELETE: api/v1/Authentication/logout
+        [HttpDelete("logout", Name = "logout")]
+        [EnableRateLimiting("Authentication")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Logout()
+        {
+            if(User.Identity?.IsAuthenticated == true)
+            {
+                string? nameIdentifier = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if(Guid.TryParse(nameIdentifier, out Guid userId))
+                {
+                    try
+                    {
+                        DeleteUserRefreshTokenCommand command = new DeleteUserRefreshTokenCommand(userId);
+                        await _authenticationService.DeleteUserRefreshToken(command);
+                    }
+                    catch (Exception)
+                    {
+                        return Problem(detail: "An error occurred when saving the logout the user.", statusCode: StatusCodes.Status500InternalServerError);
+                    }
+                }
+            }
 
-        //    _context.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// DELETE: api/Authentication/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(Guid id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
+            return NoContent();
+        }
     }
 }

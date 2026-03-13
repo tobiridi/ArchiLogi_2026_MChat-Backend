@@ -1,7 +1,7 @@
 ﻿using MChat.Domain.Entities;
 using Tools.CQS.Commands;
 
-namespace MChat.Application.Features.Authentication.Commands.UserRefreshToken
+namespace MChat.Application.Features.Authentication.Commands.CreateUserRefreshToken
 {
     public class CreateUserRefreshTokenCommand : ICommandDefinition
     {

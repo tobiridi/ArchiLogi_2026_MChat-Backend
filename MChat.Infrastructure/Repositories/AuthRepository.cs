@@ -11,6 +11,21 @@ namespace MChat.Infrastructure.Repositories
         {
         }
 
+        public async Task<bool> DeleteUserRefreshTokenAsync(Guid userId)
+        {
+            JwtRefreshTokenUser? refreshToken = await this._context.JwtTokenUsers
+                                                    .Where(tk => tk.User.Id == userId)
+                                                    .FirstOrDefaultAsync();
+            if (refreshToken is not null)
+            {
+                this._context.JwtTokenUsers.Remove(refreshToken);
+                int changes = await this._context.SaveChangesAsync();
+                return changes > 0;
+            }
+
+            return true;
+        }
+
         public async Task<bool> RegisterAsync(User user)
         {
             await this._context.Users.AddAsync(user);
