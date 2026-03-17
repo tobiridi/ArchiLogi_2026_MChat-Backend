@@ -14,10 +14,16 @@
 
         public DateTime LastUpdate { get; private set; }
 
+        public List<TeamChat> MyTeamChats { get; private set; }
+
+        public List<TeamChat> JoinedTeamChats { get; private set; }
+
         public User(string? email, string password, string username) {
             this.Email = email;
             this.Password = password;
             this.Username = username;
+            this.MyTeamChats = [];
+            this.JoinedTeamChats = [];
         }
 
         public User(Guid id, string? email, string password, string username, DateOnly createAt, DateTime lastUpdate) : this(email, password, username)

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Desktop\Architect-2025\Design_pattern\ExoArchi_Cqs\Backend\Tools.CQS\Tools.CQS.csproj" />
+    <ProjectReference Include="..\..\Tools.CQS\Tools.CQS.csproj" />
     <ProjectReference Include="..\MChat.Domain\MChat.Domain.csproj" />
   </ItemGroup>
 
