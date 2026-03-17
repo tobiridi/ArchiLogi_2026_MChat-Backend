@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.Domain", "MChat.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MChat.Application", "MChat.Application\MChat.Application.csproj", "{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.CQS", "..\..\..\..\..\Desktop\Architect-2025\Design_pattern\ExoArchi_Cqs\Backend\Tools.CQS\Tools.CQS.csproj", "{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.CQS", "..\Tools.CQS\Tools.CQS.csproj", "{809908E2-8030-5D8D-0F07-52F56168B7E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B09AD82-D242-A415-54C5-2A27FCE8BAAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A272D0F9-B3F4-4E57-F2B4-3276D89146A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809908E2-8030-5D8D-0F07-52F56168B7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809908E2-8030-5D8D-0F07-52F56168B7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809908E2-8030-5D8D-0F07-52F56168B7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809908E2-8030-5D8D-0F07-52F56168B7E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
