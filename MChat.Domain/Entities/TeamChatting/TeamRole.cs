@@ -14,35 +14,38 @@
         /// <remarks>
         /// The role name is always in lowercase.
         /// </remarks>
-        //public string RoleName { get; private set; }
+        public string TeamRoleName { get; private set; }
 
-        //public List<TeamRolePermission> Permissions { get; private set; }
+        public List<TeamRolePermission> Permissions { get; private set; }
+
+        public TeamChat Team { get; private set; }
 
         //public List<User> Users { get; private set; }
 
-        //private TeamRole(string roleName)
-        //{
-        //    RoleName = roleName.ToLowerInvariant();
-        //}
+        private TeamRole(string teamRoleName)
+        {
+            TeamRoleName = teamRoleName.ToLowerInvariant();
+        }
 
-        //public TeamRole(string roleName, List<TeamRolePermission> permissions, List<User>? usersInRole) : this(roleName)
-        //{
-        //    Permissions = permissions;
-        //    Users = usersInRole ?? new List<User>();
-        //}
+        public TeamRole(string roleName, List<TeamRolePermission> permissions, TeamChat teamChat /*, List<User>? usersInRole*/) : this(roleName)
+        {
+            Permissions = permissions;
+            Team = teamChat;
+            //Users = usersInRole ?? new List<User>();
+        }
 
-        //public override bool Equals(object? obj)
-        //{
-        //    if (obj is null) return false;
-        //    if (obj.GetType() != typeof(User)) return false;
-        //    if (obj == this) return true;
-        //    TeamRole tr = obj as TeamRole;
-        //    return tr.RoleName == RoleName;
-        //}
+        public override bool Equals(object? obj)
+        {
+            if (obj is null) return false;
+            if (obj.GetType() != typeof(User)) return false;
+            if (obj == this) return true;
+            TeamRole tr = obj as TeamRole;
+            return tr.TeamRoleName == TeamRoleName;
+        }
 
-        //public override int GetHashCode()
-        //{
-        //    return HashCode.Combine(RoleName, Users, Permissions);
-        //}
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(TeamRoleName, /*Users,*/ Permissions);
+        }
     }
 }

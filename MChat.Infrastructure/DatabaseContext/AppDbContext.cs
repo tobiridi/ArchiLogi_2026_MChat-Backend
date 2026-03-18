@@ -23,6 +23,7 @@ namespace MChat.Infrastructure.DatabaseContext
             modelBuilder.ApplyConfiguration(new TeamChatConfiguration());
             modelBuilder.ApplyConfiguration(new TeamRolePermissionConfiguration());
             modelBuilder.ApplyConfiguration(new GlobalTeamRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamRoleConfiguration());
 
             //seed
             // apply when user, team chat, team role are done !
