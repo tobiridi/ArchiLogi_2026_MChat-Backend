@@ -4,6 +4,7 @@ using MChat.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260317205225_CreateTeamChat")]
+    partial class CreateTeamChat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,19 +74,6 @@ namespace MChat.Infrastructure.Migrations
                     b.ToTable("Teams", (string)null);
                 });
 
-            modelBuilder.Entity("MChat.Domain.Entities.TeamRolePermission", b =>
-                {
-                    b.Property<string>("PermissionName")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar")
-                        .HasColumnName("perm_name");
-
-                    b.HasKey("PermissionName")
-                        .HasName("PK_Teams_Roles_Permissions");
-
-                    b.ToTable("Teams_Roles_Permissions", (string)null);
-                });
-
             modelBuilder.Entity("MChat.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -131,9 +121,9 @@ namespace MChat.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d0ee369a-f04b-40d3-9180-8e3cacc596a5"),
+                            Id = new Guid("7467d4cd-b497-4cc7-95cd-aa882544a8f7"),
                             CreateAt = new DateOnly(2026, 3, 17),
-                            LastUpdate = new DateTime(2026, 3, 17, 20, 53, 1, 525, DateTimeKind.Utc).AddTicks(6287),
+                            LastUpdate = new DateTime(2026, 3, 17, 20, 52, 25, 21, DateTimeKind.Utc).AddTicks(5131),
                             Password = "",
                             Username = "old member"
                         });

@@ -20,6 +20,12 @@ namespace MChat.Infrastructure.DatabaseContext
             modelBuilder.ApplyConfiguration(new UserSeed());
             modelBuilder.ApplyConfiguration(new JwtRefreshTokenUserConfiguration());
             modelBuilder.ApplyConfiguration(new TeamChatConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamRolePermissionConfiguration());
+
+            //seed
+            // apply when user, team chat, team role are done !
+            //modelBuilder.ApplyConfiguration(new TeamRolePermissionSeed());
+
         }
     }
 }

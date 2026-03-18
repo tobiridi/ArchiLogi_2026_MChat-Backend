@@ -8,7 +8,6 @@ namespace MChat.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<TeamChat> builder)
         {
-            //TODO: migration not done
             builder.ToTable("Teams");
 
             builder.Property(t => t.Id)
