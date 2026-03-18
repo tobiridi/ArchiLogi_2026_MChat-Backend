@@ -1,4 +1,4 @@
-﻿using MChat.Domain.Entities;
+﻿using MChat.Domain.Entities.TeamChatting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

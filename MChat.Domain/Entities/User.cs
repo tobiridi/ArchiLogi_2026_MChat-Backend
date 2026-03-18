@@ -1,4 +1,6 @@
-﻿namespace MChat.Domain.Entities
+﻿using MChat.Domain.Entities.TeamChatting;
+
+namespace MChat.Domain.Entities
 {
     public class User
     {
@@ -15,7 +17,6 @@
         public DateTime LastUpdate { get; private set; }
 
         public List<TeamChat> MyTeamChats { get; private set; }
-
 
         public User(string? email, string password, string username) {
             this.Email = email;

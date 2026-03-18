@@ -1,4 +1,4 @@
-﻿namespace MChat.Domain.Entities
+﻿namespace MChat.Domain.Entities.TeamChatting
 {
     public class TeamChat
     {
@@ -12,14 +12,14 @@
 
         private TeamChat(Guid id, string teamName, string? coverImageUrl)
         {
-            this.Id = id;
-            this.TeamName = teamName;
-            this.CoverImageUrl = coverImageUrl;
+            Id = id;
+            TeamName = teamName;
+            CoverImageUrl = coverImageUrl;
         }
 
         public TeamChat(Guid id, string teamName, string? coverImageUrl, User creator) : this(id, teamName, coverImageUrl)
         {
-            this.Creator = creator;
+            Creator = creator;
         }
     }
 }

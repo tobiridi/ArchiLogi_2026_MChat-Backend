@@ -1,4 +1,4 @@
-﻿namespace MChat.Domain.Entities
+﻿namespace MChat.Domain.Entities.TeamChatting
 {
     /// <summary>
     /// Base class to manage role permissions for team chat.
