@@ -1,5 +1,6 @@
 ﻿using MChat.Domain.Entities.TeamChatting;
 using MChat.Domain.Enums;
+using MChat.Infrastructure.JoinEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -26,7 +27,11 @@ namespace MChat.Infrastructure.Configurations
 
             //foreign key
             builder.HasMany(gtr => gtr.Permissions)
-                .WithMany();
+                .WithMany()
+                .UsingEntity<GlobalTeamRolePermission>(
+                    r => r.HasOne<TeamRolePermission>().WithMany().HasForeignKey(r => r.PermissionName),
+                    l => l.HasOne<GlobalTeamRole>().WithMany().HasForeignKey(l => l.RoleName)
+                );
         }
     }
 }

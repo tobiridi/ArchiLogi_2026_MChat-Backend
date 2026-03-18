@@ -1,40 +1,79 @@
 ﻿using MChat.Domain.Entities.TeamChatting;
 using MChat.Domain.Enums;
+using MChat.Infrastructure.JoinEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MChat.Infrastructure.Seeds
 {
-    internal class GlobalTeamRolePermissionSeed : IEntityTypeConfiguration<GlobalTeamRole>
+    internal class GlobalTeamRolePermissionSeed : IEntityTypeConfiguration<GlobalTeamRolePermission>
     {
-        public void Configure(EntityTypeBuilder<GlobalTeamRole> builder)
+        public void Configure(EntityTypeBuilder<GlobalTeamRolePermission> builder)
         {
-            GlobalTeamRole[] data = [
-                new GlobalTeamRole(GlobalTeamRoleName.Owner,
-                permissions: [
-                    //TeamRolePermission.AllPermissions
-                ]),
+            GlobalTeamRolePermission[] data = [
+                #region Owner
+                
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.AllPermissions.PermissionName,
+                    RoleName = GlobalTeamRoleName.Owner
+                },
+                #endregion
 
-                new GlobalTeamRole(GlobalTeamRoleName.Moderator,
-                permissions: [
-                    //TeamRolePermission.CreateChannel,
-                    //TeamRolePermission.UpdateChannel,
-                    //TeamRolePermission.DeleteChannel,
-                    //TeamRolePermission.ReadAllMessage,
-                    //TeamRolePermission.SendMessage,
-                    //TeamRolePermission.DeleteAnyMessage,
-                    //TeamRolePermission.DeleteOwnMessage,
-                    //TeamRolePermission.InviteUser,
-                    //TeamRolePermission.AssignRole,
-                ]),
+                #region Moderator
 
-                new GlobalTeamRole(GlobalTeamRoleName.Member,
-                permissions: [
-                    //TeamRolePermission.ReadAllMessage,
-                    //TeamRolePermission.SendMessage,
-                    //TeamRolePermission.DeleteOwnMessage
-                ]),
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.CreateChannel.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.UpdateChannel.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.DeleteChannel.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.ReadAllMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.SendMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.DeleteAnyMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.DeleteOwnMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.InviteUser.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.AssignRole.PermissionName,
+                    RoleName = GlobalTeamRoleName.Moderator
+                },
+                #endregion
 
+                #region Member
+
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.ReadAllMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Member
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.SendMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Member
+                },
+                new GlobalTeamRolePermission() {
+                    PermissionName = TeamRolePermission.DeleteOwnMessage.PermissionName,
+                    RoleName = GlobalTeamRoleName.Member
+                },
+                #endregion
             ];
 
             builder.HasData(data);
