@@ -4,6 +4,7 @@ using MChat.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260318141356_CreateGlobalTeamRole")]
+    partial class CreateGlobalTeamRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace MChat.Infrastructure.Migrations
                     b.HasKey("GlobalRoleName")
                         .HasName("PK_Global_Teams_Roles");
 
-                    b.ToTable("GlobalTeamsRoles", (string)null);
+                    b.ToTable("Global_Teams_Roles", (string)null);
                 });
 
             modelBuilder.Entity("MChat.Domain.Entities.TeamChatting.TeamChat", b =>
@@ -94,7 +97,7 @@ namespace MChat.Infrastructure.Migrations
                     b.HasKey("PermissionName")
                         .HasName("PK_Teams_Roles_Permissions");
 
-                    b.ToTable("TeamsRolesPermissions", (string)null);
+                    b.ToTable("Teams_Roles_Permissions", (string)null);
                 });
 
             modelBuilder.Entity("MChat.Domain.Entities.User", b =>
@@ -140,6 +143,16 @@ namespace MChat.Infrastructure.Migrations
                         .HasDatabaseName("UK_Users__username");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9aa1e255-8d4f-4b43-b606-8b6e0f227440"),
+                            CreateAt = new DateOnly(2026, 3, 18),
+                            LastUpdate = new DateTime(2026, 3, 18, 14, 13, 56, 47, DateTimeKind.Utc).AddTicks(8550),
+                            Password = "",
+                            Username = "old member"
+                        });
                 });
 
             modelBuilder.Entity("MChat.Infrastructure.JoinEntities.GlobalTeamRolePermission", b =>

@@ -8,7 +8,7 @@ namespace MChat.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<TeamRolePermission> builder)
         {
-            builder.ToTable("Teams_Roles_Permissions");
+            builder.ToTable("TeamsRolesPermissions");
 
             builder.Property(trp => trp.PermissionName)
                 .HasColumnName("perm_name")

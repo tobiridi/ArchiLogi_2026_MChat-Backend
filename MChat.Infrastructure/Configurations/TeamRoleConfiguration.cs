@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MChat.Infrastructure.Configurations
 {
+    //TODO: not implemented
     internal class TeamRoleConfiguration /*: IEntityTypeConfiguration<TeamRole>*/
     {
         //public void Configure(EntityTypeBuilder<TeamRole> builder)

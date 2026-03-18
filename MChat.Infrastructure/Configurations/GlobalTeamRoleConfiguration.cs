@@ -10,7 +10,7 @@ namespace MChat.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<GlobalTeamRole> builder)
         {
-            builder.ToTable("Global_Teams_Roles");
+            builder.ToTable("GlobalTeamsRoles");
 
             builder.Property(gtr => gtr.GlobalRoleName)
                 .HasColumnName("global_role_name")
