@@ -19,7 +19,6 @@ namespace MChat.Infrastructure.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new UserSeed());
             modelBuilder.ApplyConfiguration(new JwtRefreshTokenUserConfiguration());
             modelBuilder.ApplyConfiguration(new TeamChatConfiguration());
             modelBuilder.ApplyConfiguration(new TeamRolePermissionConfiguration());
@@ -27,6 +26,7 @@ namespace MChat.Infrastructure.DatabaseContext
 
             //seed
             // apply when user, team chat, team role are done !
+            //modelBuilder.ApplyConfiguration(new UserSeed());
             //modelBuilder.ApplyConfiguration(new TeamRolePermissionSeed());
             //modelBuilder.ApplyConfiguration(new GlobalTeamRoleSeed());
             //modelBuilder.ApplyConfiguration(new GlobalTeamRolePermissionSeed());
