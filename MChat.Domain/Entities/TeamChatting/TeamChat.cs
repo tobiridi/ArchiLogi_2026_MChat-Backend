@@ -10,7 +10,7 @@
 
         public User Creator { get; private set; }
 
-        //public List<TeamRole> TeamRoles { get; private set; }
+        public List<TeamRole> TeamRoles { get; private set; }
 
         private TeamChat(Guid id, string teamName, string? coverImageUrl)
         {
@@ -22,7 +22,7 @@
         public TeamChat(Guid id, string teamName, string? coverImageUrl, User creator, List<TeamRole> teamRoles) : this(id, teamName, coverImageUrl)
         {
             Creator = creator;
-            //TeamRoles = teamRoles;
+            TeamRoles = teamRoles;
         }
     }
 }

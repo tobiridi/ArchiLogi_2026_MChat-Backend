@@ -1,6 +1,4 @@
-﻿using MChat.Domain.Enums;
-
-namespace MChat.Infrastructure.JoinEntities
+﻿namespace MChat.Infrastructure.JoinEntities
 {
     internal class TeamRoleTeamRolePermission
     {

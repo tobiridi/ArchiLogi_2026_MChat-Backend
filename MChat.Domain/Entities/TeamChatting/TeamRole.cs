@@ -20,7 +20,9 @@
 
         public List<TeamRolePermission> Permissions { get; private set; }
 
-        //public TeamChat Team { get; private set; }
+        public Guid? TeamId { get; private set; }
+
+        public TeamChat? Team { get; private set; }
 
         //public List<User> Users { get; private set; }
 
@@ -30,10 +32,10 @@
             TeamRoleName = teamRoleName.Trim().ToLowerInvariant();
         }
 
-        public TeamRole(Guid id, string roleName, List<TeamRolePermission> permissions/*, TeamChat teamChat*/ /*, List<User>? usersInRole*/) : this(id, roleName)
+        public TeamRole(Guid id, string teamRoleName, List<TeamRolePermission> permissions, TeamChat teamChat /*, List<User>? usersInRole*/) : this(id, teamRoleName)
         {
             Permissions = permissions;
-            //Team = teamChat;
+            Team = teamChat;
             //Users = usersInRole ?? new List<User>();
         }
 
@@ -48,7 +50,7 @@
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(TeamRoleName, /*Users,*/ Permissions);
+            return HashCode.Combine(TeamRoleName, Permissions);
         }
     }
 }

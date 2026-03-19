@@ -23,16 +23,17 @@ namespace MChat.Infrastructure.Configurations
             builder.HasKey(tr => tr.Id)
                 .HasName("PK_TeamsRoles");
 
-            //builder.HasIndex(tr => new { tr.TeamRoleName, tr.Team })
-            //    .IsUnique()
-            //    .HasDatabaseName("UK_TeamsRoles__Team_role");
+            builder.HasIndex(tr => new { tr.TeamRoleName, tr.TeamId })
+                .IsUnique()
+                .HasDatabaseName("UK_TeamsRoles__Team_TeamRole")
+                .HasFilter(null);
 
             //foreign keys
-            //builder.HasOne(tr => tr.Team)
-            //    .WithMany(tc => tc.TeamRoles)
-            //    .HasConstraintName("FK_TeamsRoles_Teams")
-            //    .HasForeignKey("IdTeams")
-            //    .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(tr => tr.Team)
+                .WithMany(tc => tc.TeamRoles)
+                .HasForeignKey(tr => tr.TeamId)
+                .HasConstraintName("FK_TeamsRoles_Teams")
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(tr => tr.Permissions)
                 .WithMany()
