@@ -6,6 +6,6 @@ namespace MChat.Infrastructure.JoinEntities
     {
         public string PermissionName { get; set; }
 
-        public string TeamRoleName { get; set; }
+        public Guid TeamRoleId { get; set; }
     }
 }

@@ -28,7 +28,6 @@ namespace MChat.Infrastructure.Configurations
             //foreign key
             builder.HasOne(t => t.Creator)
                 .WithMany(u => u.MyTeamChats)
-                .HasForeignKey("Id_Creator")
                 .HasConstraintName("FK_Teams_Users")
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();

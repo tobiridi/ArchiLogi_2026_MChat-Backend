@@ -8,6 +8,8 @@
     /// </remarks>
     public class TeamRole
     {
+        public Guid Id { get; private set; }
+
         /// <summary>
         /// The name of the team role.
         /// </summary>
@@ -18,19 +20,20 @@
 
         public List<TeamRolePermission> Permissions { get; private set; }
 
-        public TeamChat Team { get; private set; }
+        //public TeamChat Team { get; private set; }
 
         //public List<User> Users { get; private set; }
 
-        private TeamRole(string teamRoleName)
+        private TeamRole(Guid id, string teamRoleName)
         {
-            TeamRoleName = teamRoleName.ToLowerInvariant();
+            Id = id;
+            TeamRoleName = teamRoleName.Trim().ToLowerInvariant();
         }
 
-        public TeamRole(string roleName, List<TeamRolePermission> permissions, TeamChat teamChat /*, List<User>? usersInRole*/) : this(roleName)
+        public TeamRole(Guid id, string roleName, List<TeamRolePermission> permissions/*, TeamChat teamChat*/ /*, List<User>? usersInRole*/) : this(id, roleName)
         {
             Permissions = permissions;
-            Team = teamChat;
+            //Team = teamChat;
             //Users = usersInRole ?? new List<User>();
         }
 

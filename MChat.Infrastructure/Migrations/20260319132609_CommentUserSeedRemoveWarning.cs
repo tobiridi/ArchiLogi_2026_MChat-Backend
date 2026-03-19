@@ -14,7 +14,7 @@ namespace MChat.Infrastructure.Migrations
             migrationBuilder.DeleteData(
                 table: "Users",
                 keyColumn: "Id",
-                keyValue: new Guid("9aa1e255-8d4f-4b43-b606-8b6e0f227440"));
+                keyValue: new Guid("d0ee369a-f04b-40d3-9180-8e3cacc596a5"));
         }
 
         /// <inheritdoc />
@@ -23,7 +23,7 @@ namespace MChat.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreateAt", "Email", "LastUpdate", "Password", "Username" },
-                values: new object[] { new Guid("9aa1e255-8d4f-4b43-b606-8b6e0f227440"), new DateOnly(2026, 3, 18), null, new DateTime(2026, 3, 18, 14, 13, 56, 47, DateTimeKind.Utc).AddTicks(8550), "", "old member" });
+                values: new object[] { new Guid("d0ee369a-f04b-40d3-9180-8e3cacc596a5"), new DateOnly(2026, 3, 17), null, new DateTime(2026, 3, 17, 20, 53, 1, 525, DateTimeKind.Utc).AddTicks(6287), "", "old member" });
         }
     }
 }

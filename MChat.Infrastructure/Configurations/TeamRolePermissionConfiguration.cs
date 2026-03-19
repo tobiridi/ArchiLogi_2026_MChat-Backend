@@ -11,14 +11,13 @@ namespace MChat.Infrastructure.Configurations
             builder.ToTable("TeamsRolesPermissions");
 
             builder.Property(trp => trp.PermissionName)
-                .HasColumnName("perm_name")
                 .HasColumnType("varchar")
                 .HasMaxLength(100)
                 .IsRequired();
 
             //constraints
             builder.HasKey(trp => trp.PermissionName)
-                .HasName("PK_Teams_Roles_Permissions");
+                .HasName("PK_TeamsRolesPermissions");
         }
     }
 }

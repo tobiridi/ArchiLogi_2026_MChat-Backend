@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MChat.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260318141914_RenameTableGlobalTeamRoleAndPermission")]
-    partial class RenameTableGlobalTeamRoleAndPermission
+    [Migration("20260319133916_RenamePKTeamRolePermission")]
+    partial class RenamePKTeamRolePermission
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,19 +49,6 @@ namespace MChat.Infrastructure.Migrations
                     b.ToTable("UsersRefreshToken", (string)null);
                 });
 
-            modelBuilder.Entity("MChat.Domain.Entities.TeamChatting.GlobalTeamRole", b =>
-                {
-                    b.Property<string>("GlobalRoleName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar")
-                        .HasColumnName("global_role_name");
-
-                    b.HasKey("GlobalRoleName")
-                        .HasName("PK_Global_Teams_Roles");
-
-                    b.ToTable("GlobalTeamsRoles", (string)null);
-                });
-
             modelBuilder.Entity("MChat.Domain.Entities.TeamChatting.TeamChat", b =>
                 {
                     b.Property<Guid>("Id")
@@ -71,7 +58,7 @@ namespace MChat.Infrastructure.Migrations
                     b.Property<string>("CoverImageUrl")
                         .HasColumnType("nvarchar(MAX)");
 
-                    b.Property<Guid>("Id_Creator")
+                    b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TeamName")
@@ -82,7 +69,7 @@ namespace MChat.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("PK_Teams");
 
-                    b.HasIndex("Id_Creator");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Teams", (string)null);
                 });
@@ -91,11 +78,10 @@ namespace MChat.Infrastructure.Migrations
                 {
                     b.Property<string>("PermissionName")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar")
-                        .HasColumnName("perm_name");
+                        .HasColumnType("varchar");
 
                     b.HasKey("PermissionName")
-                        .HasName("PK_Teams_Roles_Permissions");
+                        .HasName("PK_TeamsRolesPermissions");
 
                     b.ToTable("TeamsRolesPermissions", (string)null);
                 });
@@ -145,21 +131,6 @@ namespace MChat.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("MChat.Infrastructure.JoinEntities.GlobalTeamRolePermission", b =>
-                {
-                    b.Property<string>("PermissionName")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("PermissionName", "RoleName");
-
-                    b.HasIndex("RoleName");
-
-                    b.ToTable("GlobalTeamRolePermission");
-                });
-
             modelBuilder.Entity("MChat.Domain.Entities.JwtRefreshTokenUser", b =>
                 {
                     b.HasOne("MChat.Domain.Entities.User", "User")
@@ -176,27 +147,12 @@ namespace MChat.Infrastructure.Migrations
                 {
                     b.HasOne("MChat.Domain.Entities.User", "Creator")
                         .WithMany("MyTeamChats")
-                        .HasForeignKey("Id_Creator")
+                        .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Teams_Users");
 
                     b.Navigation("Creator");
-                });
-
-            modelBuilder.Entity("MChat.Infrastructure.JoinEntities.GlobalTeamRolePermission", b =>
-                {
-                    b.HasOne("MChat.Domain.Entities.TeamChatting.TeamRolePermission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MChat.Domain.Entities.TeamChatting.GlobalTeamRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("MChat.Domain.Entities.User", b =>
