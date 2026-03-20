@@ -18,11 +18,14 @@ namespace MChat.Domain.Entities
 
         public List<TeamChat> MyTeamChats { get; private set; }
 
+        public IEnumerable<TeamMember> TeamMembers { get; private set; }
+
         public User(string? email, string password, string username) {
             this.Email = email;
             this.Password = password;
             this.Username = username;
             this.MyTeamChats = [];
+            this.TeamMembers = [];
         }
 
         public User(Guid id, string? email, string password, string username, DateOnly createAt, DateTime lastUpdate) : this(email, password, username)

@@ -1,4 +1,6 @@
-﻿namespace MChat.Domain.Entities.TeamChatting
+﻿using MChat.Domain.Enums;
+
+namespace MChat.Domain.Entities.TeamChatting
 {
     /// <summary>
     /// A user role for a team chat.
@@ -24,7 +26,15 @@
 
         public TeamChat? Team { get; private set; }
 
-        //public List<User> Users { get; private set; }
+        /// <summary>
+        /// Determine if the <see cref="TeamRole"/> is a global role defined by the app or not.
+        /// <seealso cref="GlobalTeamRoleName"/>
+        /// </summary>
+        public bool IsGlobalRole { 
+            get { return this.Team is null || this.TeamId is null; } 
+        }
+
+        public IEnumerable<TeamMember> TeamMembers { get; private set; }
 
         private TeamRole(Guid id, string teamRoleName)
         {
@@ -32,11 +42,12 @@
             TeamRoleName = teamRoleName.Trim().ToLowerInvariant();
         }
 
-        public TeamRole(Guid id, string teamRoleName, List<TeamRolePermission> permissions, TeamChat teamChat /*, List<User>? usersInRole*/) : this(id, teamRoleName)
+        public TeamRole(Guid id, string teamRoleName, List<TeamRolePermission> permissions, TeamChat? teamChat, List<User> usersInRole, IEnumerable<TeamMember> teamMembers) : this(id, teamRoleName)
         {
             Permissions = permissions;
             Team = teamChat;
-            //Users = usersInRole ?? new List<User>();
+            TeamId = teamChat?.Id;
+            TeamMembers = teamMembers;
         }
 
         public override bool Equals(object? obj)

@@ -1,10 +1,11 @@
-﻿namespace MChat.Domain.Enums
+﻿using MChat.Domain.Entities.TeamChatting;
+namespace MChat.Domain.Enums
 {
     /// <summary>
     /// The same global role names in all team chat.
     /// </summary>
     /// <remarks>
-    /// This enumeration contains all roles than every <c>TeamChat</c> must have and can not be deleted.
+    /// This enumeration contains all roles than every <see cref="TeamChat"/> must have and can not be deleted.
     /// </remarks>
     public enum GlobalTeamRoleName
     {
