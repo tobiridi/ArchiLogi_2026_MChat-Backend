@@ -1,4 +1,5 @@
 ﻿using MChat.Domain.Entities;
+using MChat.Domain.Entities.TeamChatting;
 using MChat.Infrastructure.Configurations;
 using MChat.Infrastructure.Seeds;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,16 @@ namespace MChat.Infrastructure.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new UserSeed());
             modelBuilder.ApplyConfiguration(new JwtRefreshTokenUserConfiguration());
             modelBuilder.ApplyConfiguration(new TeamChatConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamRolePermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new TeamMemberConfiguration());
+
+            //seeds
+            //modelBuilder.ApplyConfiguration(new UserSeed());
+            //modelBuilder.ApplyConfiguration(new TeamRolePermissionSeed());
+            //modelBuilder.ApplyConfiguration(new TeamRoleSeed());
         }
     }
 }

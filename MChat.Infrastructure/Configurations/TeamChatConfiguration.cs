@@ -1,4 +1,4 @@
-﻿using MChat.Domain.Entities;
+﻿using MChat.Domain.Entities.TeamChatting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,6 @@ namespace MChat.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<TeamChat> builder)
         {
-            //TODO: migration not done
             builder.ToTable("Teams");
 
             builder.Property(t => t.Id)
@@ -29,7 +28,6 @@ namespace MChat.Infrastructure.Configurations
             //foreign key
             builder.HasOne(t => t.Creator)
                 .WithMany(u => u.MyTeamChats)
-                .HasForeignKey("Id_Creator")
                 .HasConstraintName("FK_Teams_Users")
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
