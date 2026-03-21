@@ -187,7 +187,7 @@ namespace MChat.Infrastructure.Migrations
 
                     b.HasIndex("TeamRoleId");
 
-                    b.ToTable("TeamRoleTeamRolePermission");
+                    b.ToTable("TeamRoleTeamRolePermission", (string)null);
                 });
 
             modelBuilder.Entity("MChat.Domain.Entities.JwtRefreshTokenUser", b =>

@@ -42,7 +42,7 @@ namespace MChat.Domain.Entities.TeamChatting
             TeamRoleName = teamRoleName.Trim().ToLowerInvariant();
         }
 
-        public TeamRole(Guid id, string teamRoleName, List<TeamRolePermission> permissions, TeamChat? teamChat, List<User> usersInRole, IEnumerable<TeamMember> teamMembers) : this(id, teamRoleName)
+        public TeamRole(Guid id, string teamRoleName, List<TeamRolePermission> permissions, TeamChat? teamChat, IEnumerable<TeamMember> teamMembers) : this(id, teamRoleName)
         {
             Permissions = permissions;
             Team = teamChat;

@@ -27,7 +27,7 @@ namespace MChat.Infrastructure.DatabaseContext
             //seeds
             //modelBuilder.ApplyConfiguration(new UserSeed());
             //modelBuilder.ApplyConfiguration(new TeamRolePermissionSeed());
-
+            //modelBuilder.ApplyConfiguration(new TeamRoleSeed());
         }
     }
 }
