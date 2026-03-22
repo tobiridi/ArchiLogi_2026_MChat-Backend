@@ -10,7 +10,7 @@ namespace MChat.Domain.Entities.TeamChatting
     /// </remarks>
     public class TeamRole
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// The name of the team role.
@@ -18,13 +18,13 @@ namespace MChat.Domain.Entities.TeamChatting
         /// <remarks>
         /// The role name is always in lowercase.
         /// </remarks>
-        public string TeamRoleName { get; private set; }
+        public string TeamRoleName { get; set; }
 
-        public List<TeamRolePermission> Permissions { get; private set; }
+        public List<TeamRolePermission> Permissions { get; set; }
 
-        public Guid? TeamId { get; private set; }
+        public Guid? TeamId { get; set; }
 
-        public TeamChat? Team { get; private set; }
+        public TeamChat? Team { get; set; }
 
         /// <summary>
         /// Determine if the <see cref="TeamRole"/> is a global role defined by the app or not.
@@ -34,7 +34,9 @@ namespace MChat.Domain.Entities.TeamChatting
             get { return this.Team is null || this.TeamId is null; } 
         }
 
-        public IEnumerable<TeamMember> TeamMembers { get; private set; }
+        public IEnumerable<TeamMember> TeamMembers { get; set; }
+
+        public TeamRole() { }
 
         private TeamRole(Guid id, string teamRoleName)
         {

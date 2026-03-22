@@ -15,5 +15,11 @@ namespace MChat.Infrastructure.Repositories
             return await this._context.Users.Where(u => u.Email == email)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<User?> GetByIdAsync(Guid userId)
+        {
+            return await this._context.Users.Where(u => u.Id == userId)
+                .SingleOrDefaultAsync();
+        }
     }
 }
