@@ -13,8 +13,7 @@ namespace MChat.Infrastructure.Repositories
 
         public List<TeamChat> GetOwnerTeamChats(Guid userId)
         {
-            return _context.Teams.Where(tc => tc.Creator.Id == userId)
-                .ToList();
+            return _context.Teams.Where(tc => tc.Creator.Id == userId).ToList();
         }
     }
 }

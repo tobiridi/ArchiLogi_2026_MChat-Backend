@@ -73,6 +73,7 @@ namespace MChat.WebAPI
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IAuthRepository, AuthRepository>();
             builder.Services.AddScoped<ITeamChatRepository, TeamChatRepository>();
+            builder.Services.AddScoped<ITeamMemberRepository, TeamMemberRepository>();
             #endregion
 
             #region Application layer services
@@ -82,6 +83,7 @@ namespace MChat.WebAPI
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
             builder.Services.AddScoped<ITeamChatService, TeamChatService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ITeamMemberService, TeamMemberService>();
             #endregion
 
             #region CORS configuration
