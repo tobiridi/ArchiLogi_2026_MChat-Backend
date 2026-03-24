@@ -2,17 +2,19 @@
 {
     public class TeamChat
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
-        public string TeamName { get; private set; }
+        public string TeamName { get; set; }
 
-        public string? CoverImageUrl { get; private set; } = null;
+        public string? CoverImageUrl { get; set; } = null;
 
-        public User Creator { get; private set; }
+        public User Creator { get; set; }
 
-        public List<TeamRole> TeamRoles { get; private set; }
+        public List<TeamRole> TeamRoles { get; set; }
 
-        public List<TeamMember> TeamMembers { get; private set; }
+        public List<TeamMember> TeamMembers { get; set; }
+
+        public TeamChat() { }
 
         private TeamChat(Guid id, string teamName, string? coverImageUrl)
         {

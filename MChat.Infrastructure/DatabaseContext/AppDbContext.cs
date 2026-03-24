@@ -11,6 +11,7 @@ namespace MChat.Infrastructure.DatabaseContext
         public DbSet<User> Users { get; set; }
         public DbSet<JwtRefreshTokenUser> JwtTokenUsers { get; set; }
         public DbSet<TeamChat> Teams { get; set; }
+        public DbSet<TeamMember> TeamsMembers { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {}

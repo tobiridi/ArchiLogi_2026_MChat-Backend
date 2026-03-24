@@ -1,10 +1,10 @@
-﻿using MChat.Domain.Entities.TeamChatting;
+﻿using MChat.Domain.Entities;
+using MChat.Domain.Entities.TeamChatting;
 
 namespace MChat.Domain.Interfaces
 {
     public interface ITeamChatRepository
     {
-        Task<List<TeamChat>>GetOwnerTeamChatsAsync(Guid userId);
-        Task<List<TeamChat>>GetJoinedTeamChatsAsync(Guid userId);
+        List<TeamChat> GetOwnerTeamChats(Guid userId);
     }
 }

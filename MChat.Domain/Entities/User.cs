@@ -4,21 +4,23 @@ namespace MChat.Domain.Entities
 {
     public class User
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
-        public string? Email { get; private set; }
+        public string? Email { get; set; }
 
-        public string Password { get; private set; }
+        public string Password { get; set; }
 
-        public string Username { get; private set; }
+        public string Username { get; set; }
 
-        public DateOnly CreateAt { get; private set; }
+        public DateOnly CreateAt { get; set; }
 
-        public DateTime LastUpdate { get; private set; }
+        public DateTime LastUpdate { get; set; }
 
-        public List<TeamChat> MyTeamChats { get; private set; }
+        public List<TeamChat> MyTeamChats { get; set; }
 
-        public IEnumerable<TeamMember> TeamMembers { get; private set; }
+        public IEnumerable<TeamMember> TeamMembers { get; set; }
+
+        public User() {}
 
         public User(string? email, string password, string username) {
             this.Email = email;
